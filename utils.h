@@ -1,8 +1,8 @@
 /***************************\
- * Author: WANG Hsutung
+ * Author: Wang Hsutung
  * Date: 2015/08/12
  * Locale: 家里
- * Email: xukiro[AT]outlook.com
+ * Email: hsu@whu.edu.cn
 \***************************/
 
 #ifndef UTILS_H
@@ -27,9 +27,13 @@
 #define ERROR(_title, _msg) RED("["_title"]")"\t"_msg
 
 #define is_directory(_fstat)    (S_ISDIR((_fstat).st_mode))
-#define is_executable(_fstat)   ((_fstat).st_mode & S_IXUSR)
+#define is_executable(_fstat)   ((_fstat).st_mode & S_IXUSR ||\
+        (_fstat).st_mode & S_IXGRP ||\
+        (_fstat).st_mode & S_IXOTH)
 
-#define BUFSIZE 128
+
+
+#define BUFSIZE (1 << (1 * 8))
 
 extern void     consume_rest(FILE *fp);
 extern void     err_sys     (const char *fmt, ...);

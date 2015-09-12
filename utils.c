@@ -57,6 +57,7 @@ const char *get_extname(const char *filename)
     return dot + 1;
 }
 
+/* path = dir/file, file should start with slash */
 void full_path(char *path, size_t n, const char *dir, const char *file)
 {
     size_t dir_len = strlen(dir);

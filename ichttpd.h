@@ -1,5 +1,5 @@
 /***************************\
- * Author: WANG Hsutung
+ * Author: Wang Hsutung
  * Date: 2015/08/11
  * Locale: 家里
  * Email: hsu@whu.edu.cn
@@ -19,38 +19,61 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <sys/socket.h>
+#include <sys/wait.h>
 #include "utils.h"
 
 /** Config file path **/
 #define CONF_PATH    "./ichttpd.conf"
 
-#define MAXLEN  128
+#define MAXLEN  (1 << (1 * 8))
 #define BACKLOG 10
 #define SPACES " \f\n\r\t\v"
+#define NEWLINES "\n\r"
+
+enum req_method
+{
+    M_UNKNOWN, M_GET, M_POST
+};
 
 struct ichttpd_conf {
     char    port[MAXLEN];
     char    dir[MAXLEN];
 };
 
-extern void ichttpd_start   (void);
-extern int  ichttpd_listen  (const struct ichttpd_conf *cfg);
-extern int  ichttpd_accept  (int listenfd);
-extern void ichttpd_response(int connfd, struct ichttpd_conf *cfg);
-extern void ichttpd_exit    (int connfd, int exitcode);
+struct req_line {
+    char    line[MAXLEN];
+    char    *method, *url, *version;
+    char    *querystr;
+    enum req_method rqmethod;
+};
 
-extern void read_conf       (const char *path, struct ichttpd_conf *cfg);
-extern void parse_conf      (char *line, struct ichttpd_conf *cfg);
+struct req_header {
+    char    host[MAXLEN];
+    int     content_len;
+};
 
-extern void resp_easter     (FILE *sockfp);
-extern void resp_unsupport  (FILE *sockfp);
-extern void resp_unfound    (FILE *sockfp, const char *url);
-extern void resp_directory  (FILE *sockfp, const char *path, const char *url, const char *host);
-extern void resp_cgi        (FILE *sockfp, const char *path);
-extern void resp_regfile    (FILE *sockfp, const char *path);
+void ichttpd_start   (void);
+int  ichttpd_listen  (const struct ichttpd_conf *cfg);
+int  ichttpd_accept  (int listenfd);
+void ichttpd_response(int connfd, struct ichttpd_conf *cfg);
+void ichttpd_exit    (int connfd, int exitcode);
 
-extern void write_head      (FILE *fp, int code);
-extern void write_filetype  (FILE *fp, const char *path);
+void read_conf       (const char *path, struct ichttpd_conf *cfg);
+void parse_conf      (char *line, struct ichttpd_conf *cfg);
+
+void read_req_line   (FILE *sockfp, struct req_line *rqline);
+void read_req_header (FILE *sockfp, struct req_header *rqheader);
+
+void resp_easter     (FILE *sockfp);
+void resp_unsupport  (FILE *sockfp);
+void resp_unfound    (FILE *sockfp, const char *url);
+void resp_directory  (FILE *sockfp, const char *path, const char *url, const char *host);
+void resp_cgi        (FILE *sockfp, const char *path,
+        struct req_line *rqline, struct req_header *rqheader);
+void resp_regfile    (FILE *sockfp, const char *path);
+
+void write_head      (FILE *fp, int code);
+void write_filetype  (FILE *fp, const char *path);
 
 #endif /* ICHTTPD_H */
 

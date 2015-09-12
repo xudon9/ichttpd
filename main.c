@@ -1,5 +1,5 @@
 /***************************\
- * Author: WANG Hsutung
+ * Author: Wang Hsutung
  * Date: 2015/08/11
  * Locale: 家里
  * Email: hsu@whu.edu.cn
