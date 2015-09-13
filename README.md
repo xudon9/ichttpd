@@ -1,5 +1,5 @@
-# **Ichttpd** V0.2 is here!
-'New' Feature: 新增 POST 方法支持.
+# *Ichttpd* V0.2 is here!
+__'New' Feature__: 新增 POST 方法支持.
 
 ## Introduction
 「 **Ichttpd** 」 是一个简单的支持最常见的 _POST_ 和 _GET_ 方法的 httpd 服务器.
