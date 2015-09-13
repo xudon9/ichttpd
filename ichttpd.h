@@ -44,12 +44,12 @@ struct req_line {
     char    line[MAXLEN];
     char    *method, *url, *version;
     char    *querystr;
-    enum req_method rqmethod;
+    enum req_method mthd_id;
 };
 
 struct req_header {
     char    host[MAXLEN];
-    int     content_len;
+    int     contentlen;
 };
 
 void ichttpd_start   (void);
@@ -61,16 +61,16 @@ void ichttpd_exit    (int connfd, int exitcode);
 void read_conf       (const char *path, struct ichttpd_conf *cfg);
 void parse_conf      (char *line, struct ichttpd_conf *cfg);
 
-void read_req_line   (FILE *sockfp, struct req_line *rqline);
-void read_req_header (FILE *sockfp, struct req_header *rqheader);
+void read_req_line   (FILE *sockfp, struct req_line *line);
+void read_req_header (FILE *sockfp, struct req_header *header);
 
 void resp_easter     (FILE *sockfp);
 void resp_unsupport  (FILE *sockfp);
 void resp_unfound    (FILE *sockfp, const char *url);
 void resp_directory  (FILE *sockfp, const char *path, const char *url, const char *host);
-void resp_cgi        (FILE *sockfp, const char *path,
-        struct req_line *rqline, struct req_header *rqheader);
 void resp_regfile    (FILE *sockfp, const char *path);
+void resp_cgi        (FILE *sockfp, const char *path,
+        const struct req_line *line, const struct req_header *header);
 
 void write_head      (FILE *fp, int code);
 void write_filetype  (FILE *fp, const char *path);

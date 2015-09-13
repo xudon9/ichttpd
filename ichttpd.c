@@ -2,8 +2,8 @@
 
 void ichttpd_start(void)
 {
-    int listenfd, clifd;
-    pid_t pid;
+    int     listenfd, clifd;
+    pid_t   pid;
     struct ichttpd_conf conf = {"8000", "/var/www"};
 
     read_conf(CONF_PATH, &conf);
@@ -93,10 +93,8 @@ int ichttpd_accept(int listenfd)
 void ichttpd_response(int connfd, struct ichttpd_conf *cfg)
 {
     FILE *fp;                       /* connfd associated stream   */
-    //char req_line[MAXLEN];          /* First line of HTTP request */
-    struct req_line rqline;           /* The first request line     */
-    struct req_header rqheader;       /* Request header fields      */
-    //char *method, *url, *version;   /* HTTP head info             */
+    struct req_line rqline;         /* The first request line     */
+    struct req_header rqheader;     /* Request header fields      */
     char path[MAXLEN];              /* File path of requested URL */
     struct stat filestat;           /* Status of requested file   */
 
@@ -113,7 +111,7 @@ void ichttpd_response(int connfd, struct ichttpd_conf *cfg)
     read_req_header(fp, &rqheader);
 
     /* method = GET or POST */
-    if (rqline.rqmethod == M_UNKNOWN) {
+    if (rqline.mthd_id == M_UNKNOWN) {
         resp_unsupport(fp);
         fprintf(stderr,
                 WARN("Method Error", "Unsupported method %s\n"), rqline.method);
@@ -154,7 +152,7 @@ void ichttpd_response(int connfd, struct ichttpd_conf *cfg)
 
     /* Check if it is executable */
     if (is_executable(filestat) || rqline.querystr != NULL
-            || rqline.rqmethod == M_POST) {
+            || rqline.mthd_id == M_POST) {
         resp_cgi(fp, path, &rqline, &rqheader);
         ichttpd_exit(connfd, EXIT_FAILURE); /* exec doesn't return */
     }
@@ -205,7 +203,7 @@ void parse_conf(char *line, struct ichttpd_conf *cfg)
     value = strtok(equal + 1, SPACES);
 
     if (key[0] == '#')
-        return;		/* Comment line */
+        return; /* Comment line */
 
     if (strcmp(key, "Port") == 0)
         strncpy(cfg->port, value, MAXLEN);
@@ -215,45 +213,46 @@ void parse_conf(char *line, struct ichttpd_conf *cfg)
         fprintf(stderr, WARN("Warning", "Unkown key %s\n"), key);
 }
 
-void read_req_line(FILE *sockfp, struct req_line *rqline)
+void read_req_line(FILE *sockfp, struct req_line *line)
 {
     char *saveptr;
 
-    if (fgets(rqline->line, MAXLEN, sockfp) == NULL) {
+    if (fgets(line->line, MAXLEN, sockfp) == NULL) {
         err_sys(WARN("Warning", "fgets() returned NULL"));
         ichttpd_exit(fileno(sockfp), EXIT_FAILURE);
     }
 
-    rqline->method = strtok_r(rqline->line, SPACES, &saveptr);
-    rqline->url = strtok_r(NULL, SPACES, &saveptr);
-    rqline->version = strtok_r(NULL, SPACES, &saveptr);
+    line->method = strtok_r(line->line, SPACES, &saveptr);
+    line->url = strtok_r(NULL, SPACES, &saveptr);
+    line->version = strtok_r(NULL, SPACES, &saveptr);
 
-    if (rqline->method == NULL || rqline->url == NULL
-            || rqline->version == NULL) {
+    if (line->method == NULL || line->url == NULL
+            || line->version == NULL) {
         fprintf(stderr,
                 WARN("Warning", "Invalid HTTP head format\n"));
         ichttpd_exit(fileno(sockfp), EXIT_FAILURE);
     }
 
-    if ((rqline->querystr = strchr(rqline->url, '?')) != NULL)
-        *rqline->querystr++ = '\0';
+    if ((line->querystr = strchr(line->url, '?')) != NULL)
+        *line->querystr++ = '\0';
 
-    if (strcasecmp(rqline->method, "GET") == 0)
-        rqline->rqmethod = M_GET;
-    else if (strcasecmp(rqline->method, "POST") == 0)
-        rqline->rqmethod = M_POST;
+    if (strcasecmp(line->method, "GET") == 0)
+        line->mthd_id = M_GET;
+    else if (strcasecmp(line->method, "POST") == 0)
+        line->mthd_id = M_POST;
     else
-        rqline->rqmethod = M_UNKNOWN;
+        line->mthd_id = M_UNKNOWN;
 }
 
-void read_req_header(FILE *sockfp, struct req_header *rqheader)
+void read_req_header(FILE *sockfp, struct req_header *header)
 {
     char buf[MAXLEN];
-    char *key, *val, *saveptr;
-    rqheader->content_len = -1;
+    char *key, *val;
+    char *saveptr;
+    header->contentlen = -1;
 
-    memset(rqheader->host, '\0', MAXLEN);
-    rqheader->content_len = 0;
+    memset(header->host, '\0', MAXLEN);
+    header->contentlen = 0;
 
     while (fgets(buf, MAXLEN, sockfp) != NULL) {
         /*printf("%s", buf); */
@@ -264,15 +263,13 @@ void read_req_header(FILE *sockfp, struct req_header *rqheader)
         val = strtok_r(NULL, NEWLINES, &saveptr);
 
         if (strcasecmp(key, "Host:") == 0)
-            strncpy(rqheader->host, val, MAXLEN);
+            strncpy(header->host, val, MAXLEN);
         else if (strcasecmp(key, "Content-Length:") == 0)
-            rqheader->content_len = atoi(val);
+            header->contentlen = atoi(val);
     }
-
-    /*puts(host); */
 }
 
-void resp_easter(FILE * sockfp)
+void resp_easter(FILE *sockfp)
 {
     write_head(sockfp, 200);
     write_filetype(sockfp, "html");
@@ -285,14 +282,14 @@ void resp_easter(FILE * sockfp)
     try_fprintf(sockfp, "<p>A simple HTTP server `<b>ICHttpd</b>'</p>"
             "<i>ICH <del>LIEBE</del> DICH</i><h2>;-)</h2>");
     html_link(sockfp, "王旭东", "http://qzone.qq.com/757224305");
-    try_fprintf(sockfp, ", Aug 2015, <a href = \"mailto:"
+    try_fprintf(sockfp, ", Sep 2015, <a href = \"mailto:"
             "xukiro@outlook.com\">xukiro@outlook.com</a>");
 
     html_end(sockfp, "body");
     html_end(sockfp, "html");
 }
 
-void resp_unsupport(FILE * sockfp)
+void resp_unsupport(FILE *sockfp)
 {
     write_head(sockfp, 200);
     write_filetype(sockfp, "html");
@@ -302,7 +299,7 @@ void resp_unsupport(FILE * sockfp)
             "Please wait.<h2>:-)</h2>");
 }
 
-void resp_unfound(FILE * sockfp, const char *url)
+void resp_unfound(FILE *sockfp, const char *url)
 {
     fprintf(stderr, WARN("Error 404", "Cannot find file `%s'\n"), url);
     write_head(sockfp, 404);
@@ -312,7 +309,7 @@ void resp_unfound(FILE * sockfp, const char *url)
             "Oops, file <b>%s</b> can't be found.<h2>:-(</h2>", url);
 }
 
-void resp_directory(FILE * sockfp, const char *path, const char *url,
+void resp_directory(FILE *sockfp, const char *path, const char *url,
         const char *host)
 {
     char buf[MAXLEN];
@@ -357,81 +354,7 @@ void resp_directory(FILE * sockfp, const char *path, const char *url,
     html_end(sockfp, "html");
 }
 
-void resp_cgi(FILE *sockfp, const char *path,
-        struct req_line *rqline, struct req_header *rqheader)
-{
-    pid_t   pid;
-    int     status;
-    int     cgi_input[2], cgi_output[2];
-    //char    buf[MAXLEN];
-    char    c;
-    char    querystr_env[MAXLEN];
-    char    contentlen_env[MAXLEN];
-    char    method_env[MAXLEN];
-
-    /* Create pipe */
-    if (pipe(cgi_input) < 0 || pipe(cgi_output) < 0) {
-        err_sys(ERROR("pipe Error", "pipe() for CGI"));
-        ichttpd_exit(fileno(sockfp), EXIT_FAILURE);
-    }
-
-    if ((pid = fork()) < 0) {
-        err_sys(WARN("Warning", "fork() for CGI"));
-        ichttpd_exit(fileno(sockfp), EXIT_FAILURE);
-
-    } else if (pid == 0) {
-        /* Child Process */
-        snprintf(method_env, MAXLEN, "REQUEST_METHOD=%s", rqline->method);
-        putenv(method_env);
-
-        if (rqline->rqmethod == M_GET) {
-            snprintf(querystr_env, MAXLEN, "QUERY_STRING=%s", rqline->querystr);
-            putenv(querystr_env);
-        } else if (rqline->rqmethod == M_POST) {
-            snprintf(contentlen_env, MAXLEN, "CONTENT_LENGTH=%d", rqheader->content_len);
-            putenv(contentlen_env);
-        }
-
-        /* Duplicate file descriptor */
-        if (dup2(cgi_input[0], STDIN_FILENO) < 0 ||
-                dup2(cgi_output[1], STDOUT_FILENO) < 0) {
-            err_sys(ERROR("dup2 Error", "dup2() for CGI"));
-            return;
-        }
-        if (try_close(cgi_input[1]) < 0 || try_close(cgi_output[0]) < 0)
-            return;
-
-        write_head(stdout, 200);
-        /* Execute file file */
-        execl(path, path, NULL);
-        err_sys(ERROR("execl Error", "execl() for CGI"));
-
-    } else {
-        /* Parent Process */
-        if (try_close(cgi_input[0]) < 0 || try_close(cgi_output[1]) < 0)
-            return;
-        if (rqline->rqmethod == M_POST) {
-            int i;
-            printf("把post数据给子进程 %d\n", rqheader->content_len);//DEBUG
-            for (i = 0; i < rqheader->content_len; ++i) {
-                c = getc(sockfp);
-                write(cgi_input[1], &c, 1);
-                printf("post 1 byte %c\n", c);
-            }
-        }
-
-        while (read(cgi_output[0], &c, 1) > 0)
-            putc(c, sockfp);
-
-        if (try_close(cgi_input[1]) < 0 || try_close(cgi_output[0]) < 0)
-            return;
-
-        waitpid(pid, &status, 0);
-        printf("子进程结束了\n");
-    }
-}
-
-void resp_regfile(FILE * sockfp, const char *path)
+void resp_regfile(FILE *sockfp, const char *path)
 {
     FILE *filefp;
     int c;  /* `char  c' will NOT work */
@@ -453,7 +376,86 @@ void resp_regfile(FILE * sockfp, const char *path)
             path);
 }
 
-void write_head(FILE * fp, int code)
+void resp_cgi(FILE *sockfp, const char *path,
+        const struct req_line *line, const struct req_header *header)
+{
+    pid_t   pid;
+    int     cgi_input[2], cgi_output[2];
+    char    querystr_env[MAXLEN];
+    char    contentlen_env[MAXLEN];
+    char    method_env[MAXLEN];
+
+    /* Create pipe */
+    if (pipe(cgi_input) < 0 || pipe(cgi_output) < 0) {
+        err_sys(WARN("Warning", "pipe() for CGI"));
+        ichttpd_exit(fileno(sockfp), EXIT_FAILURE);
+    }
+
+    if ((pid = fork()) < 0) {
+        err_sys(WARN("Warning", "fork() for CGI"));
+        ichttpd_exit(fileno(sockfp), EXIT_FAILURE);
+
+    } else if (pid == 0) {
+        /* Child Process */
+        snprintf(method_env, MAXLEN, "REQUEST_METHOD=%s", line->method);
+        putenv(method_env);
+
+        if (line->mthd_id == M_GET) {
+            snprintf(querystr_env, MAXLEN, "QUERY_STRING=%s", line->querystr);
+            putenv(querystr_env);
+        } else if (line->mthd_id == M_POST) {
+            snprintf(contentlen_env, MAXLEN, "CONTENT_LENGTH=%d", header->contentlen);
+            putenv(contentlen_env);
+        }
+
+        /* Duplicate file descriptor */
+        if (dup2(cgi_input[0], STDIN_FILENO) < 0 ||
+                dup2(cgi_output[1], STDOUT_FILENO) < 0) {
+            err_sys(ERROR("dup2 Error", "dup2() for CGI"));
+            return;
+        }
+        if (try_close(cgi_input[1]) < 0 || try_close(cgi_output[0]) < 0)
+            return;
+
+        write_head(stdout, 200);
+        /* Execute file file */
+        execl(path, path, NULL);
+        err_sys(ERROR("execl Error", "execl() for CGI"));
+
+    } else {
+        /* Parent Process */
+        char    buf[MAXLEN];
+        int     i;
+        int     status;
+        FILE    *cgi_infp = fdopen(cgi_input[1], "w");
+        FILE    *cgi_outfp = fdopen(cgi_output[0], "r");
+
+        if (try_close(cgi_input[0]) < 0 || try_close(cgi_output[1]) < 0)
+            return;
+        if (cgi_infp == NULL || cgi_outfp == NULL) {
+            err_sys(ERROR("Error", "fdopen() for pipe"));
+            return;
+        }
+
+        /* POST data: Client -> Parent -> Child CGI */
+        if(line->mthd_id == M_POST) {
+            for (i = 0; i < header->contentlen; ++i)
+                fputc(fgetc(sockfp), cgi_infp);
+        }
+        fflush(cgi_infp);
+
+        /* CGI output -> Parent -> Client */
+        while (fgets(buf, MAXLEN, cgi_outfp))
+            fputs(buf, sockfp);
+
+        if (try_close(cgi_input[1]) < 0 || try_close(cgi_output[0]) < 0)
+            return;
+
+        waitpid(pid, &status, 0);
+    }
+}
+
+void write_head(FILE *fp, int code)
 {
     const char *msg;
 
@@ -472,7 +474,7 @@ void write_head(FILE * fp, int code)
     }
 }
 
-void write_filetype(FILE * fp, const char *path)
+void write_filetype(FILE *fp, const char *path)
 {
     const char *type, *ext;
 
