@@ -67,6 +67,7 @@ void read_req_header (FILE *sockfp, struct req_header *header);
 
 void resp_easter     (FILE *sockfp);
 void resp_unsupport  (FILE *sockfp);
+void resp_badrequest (FILE *sockfp, const char *msg);
 void resp_unfound    (FILE *sockfp, const char *url);
 void resp_directory  (FILE *sockfp, const char *path, const char *url, const char *host);
 void resp_regfile    (FILE *sockfp, const char *path);

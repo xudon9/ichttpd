@@ -3,7 +3,7 @@
  * Date: 2015/08/11
  * Locale: 家里
  * Email: hsu[AT]whu.edu.cn
- * Last Update: 2015/09/13(日)
+ * Last Update: 2015/09/13
  * 这两天寝室不开空调也好凉快,
  *  然后……感冒了。
 \***************************/
@@ -125,6 +125,11 @@ void ichttpd_response(int connfd, struct ichttpd_conf *cfg)
         resp_unsupport(fp);
         fprintf(stderr,
                 WARN("Method Error", "Unsupported method %s\n"), rqline.method);
+        ichttpd_exit(connfd, EXIT_FAILURE);
+    } else if (rqline.mthd_id == M_POST && rqheader.contentlen < 0) {
+        resp_badrequest(fp, "POST method without Content-Length");
+        fprintf(stderr,
+                WARN("Bad Req", "POST method without Content-Length\n"));
         ichttpd_exit(connfd, EXIT_FAILURE);
     }
 
@@ -305,8 +310,17 @@ void resp_unsupport(FILE *sockfp)
     write_filetype(sockfp, "html");
 
     html_page(sockfp, "Unsupported", "Unsupported method",
-            "<p>Methods other than GET and POST are not implemented yet.</p>"
+            "<p>Methods other than GET and POST are not implemented.</p>"
             "Please wait.<h2>:-)</h2>");
+}
+
+void resp_badrequest(FILE *sockfp, const char *msg)
+{
+    write_head(sockfp, 400);
+    write_filetype(sockfp, "html");
+
+    html_page(sockfp, "Error 400", "400 Bad Request",
+            "Wait... An error occured: %s<h2>:-(</h2>", msg);
 }
 
 void resp_unfound(FILE *sockfp, const char *url)
@@ -378,7 +392,7 @@ void resp_regfile(FILE *sockfp, const char *path)
     write_filetype(sockfp, path);
 
     /* Read the file and send */
-    while ((c = getc(filefp)) != EOF)
+    while ((c = fgetc(filefp)) != EOF)
         putc(c, sockfp);
 
     fclose(filefp);
@@ -437,12 +451,12 @@ void resp_cgi(FILE *sockfp, const char *path,
         char    buf[MAXLEN];
         int     i;
         int     status;
-        FILE    *cgi_infp = fdopen(cgi_input[1], "w");
-        FILE    *cgi_outfp = fdopen(cgi_output[0], "r");
+        FILE    *cgi_infp, *cgi_outfp;
 
         if (try_close(cgi_input[0]) < 0 || try_close(cgi_output[1]) < 0)
             return;
-        if (cgi_infp == NULL || cgi_outfp == NULL) {
+        if ((cgi_infp = fdopen(cgi_input[1], "w")) == NULL ||
+                (cgi_outfp = fdopen(cgi_output[0], "r")) == NULL) {
             err_sys(ERROR("Error", "fdopen() for pipe"));
             return;
         }
@@ -474,8 +488,10 @@ void write_head(FILE *fp, int code)
         msg = "OK";
         break;
     case 404:
-        msg = "Not Found";
+        msg = "NOT FOUND";
         break;
+    case 400:
+        msg = "BAD REQUEST";
     default:
         msg = "OK";
     }
