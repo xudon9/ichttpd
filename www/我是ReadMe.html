@@ -1,0 +1,84 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+	<title></title>
+	<meta name="generator" content="LibreOffice 4.3.3.2 (Linux)"/>
+	<meta name="created" content="00:00:00"/>
+	<meta name="changed" content="2014-11-23T18:32:14.645880490"/>
+	<meta name="created" content="2014-11-23T17:31:16.945212353">
+	<meta name="changed" content="2014-11-23T18:04:34.445890904">
+	<style type="text/css">
+		@page { margin: 2cm }
+		p { margin-bottom: 0.25cm; line-height: 120% }
+		a:link { so-language: zxx }
+	</style>
+</head>
+<body lang="zh-CN" dir="ltr" style="background: transparent">
+<p style="margin-bottom: 0cm; line-height: 100%"><font face="STFangsong"><font size="4" style="font-size: 14pt">说明：</font></font></p>
+<p style="margin-bottom: 0cm; line-height: 100%"><font face="Liberation Serif, serif"><span lang="en-US"><font face="STFangsong"><font size="4" style="font-size: 14pt"><span lang="en-US">1</span></font></font></span></font><font face="STFangsong"><font size="4" style="font-size: 14pt">、后端使用
+</font></font><font face="Liberation Serif, serif"><span lang="en-US"><font face="STFangsong"><font size="4" style="font-size: 14pt"><span lang="en-US">Python
+3.4.1 </span></font></font></span></font><font face="STFangsong"><font size="4" style="font-size: 14pt">开发；仅使用了
+</font></font><font face="Liberation Serif, serif"><span lang="en-US"><font face="STFangsong"><font size="4" style="font-size: 14pt"><span lang="en-US">Python
+</span></font></font></span></font><font face="STFangsong"><font size="4" style="font-size: 14pt">标准模块，以下是使用到的模块列表：
+</font></font><font face="Liberation Serif, serif"><span lang="en-US"><font face="STFangsong"><font size="4" style="font-size: 14pt"><span lang="en-US">string</span></font></font></span></font><font face="STFangsong"><font size="4" style="font-size: 14pt">、</font></font><font face="Liberation Serif, serif"><span lang="en-US"><font face="STFangsong"><font size="4" style="font-size: 14pt"><span lang="en-US">cgi</span></font></font></span></font><font face="STFangsong"><font size="4" style="font-size: 14pt">、</font></font><font face="Liberation Serif, serif"><span lang="en-US"><font face="STFangsong"><font size="4" style="font-size: 14pt"><span lang="en-US">sqlite3
+</span></font></font></span></font><font face="STFangsong"><font size="4" style="font-size: 14pt">、</font></font><font face="Liberation Serif, serif"><span lang="en-US"><font face="STFangsong"><font size="4" style="font-size: 14pt"><span lang="en-US">datetime</span></font></font></span></font><font face="STFangsong"><font size="4" style="font-size: 14pt">、</font></font><font face="Liberation Serif, serif"><span lang="en-US"><font face="STFangsong"><font size="4" style="font-size: 14pt"><span lang="en-US">time</span></font></font></span></font><font face="STFangsong"><font size="4" style="font-size: 14pt">、</font></font><font face="Liberation Serif, serif"><span lang="en-US"><font face="STFangsong"><font size="4" style="font-size: 14pt"><span lang="en-US">os</span></font></font></span></font><font face="STFangsong"><font size="4" style="font-size: 14pt">；</font></font></p>
+<p style="margin-bottom: 0cm; line-height: 100%"><font face="Liberation Serif, serif"><span lang="en-US"><font face="STFangsong"><font size="4" style="font-size: 14pt"><span lang="en-US">2</span></font></font></span></font><font face="STFangsong"><font size="4" style="font-size: 14pt">、</font></font><u><font face="STFangsong"><font size="4" style="font-size: 14pt">理论上</font></font></u><font face="STFangsong"><font size="4" style="font-size: 14pt">可以运行于所有支持
+</font></font><font face="Liberation Serif, serif"><span lang="en-US"><font face="STFangsong"><font size="4" style="font-size: 14pt"><span lang="en-US">Python
+3 </span></font></font></span></font><font face="STFangsong"><font size="4" style="font-size: 14pt">的平台，包括
+</font></font><font face="Liberation Serif, serif"><span lang="en-US"><font face="STFangsong"><font size="4" style="font-size: 14pt"><span lang="en-US">Windows</span></font></font></span></font><font face="STFangsong"><font size="4" style="font-size: 14pt">、</font></font><font face="Liberation Serif, serif"><span lang="en-US"><font face="STFangsong"><font size="4" style="font-size: 14pt"><span lang="en-US">Linux</span></font></font></span></font><font face="STFangsong"><font size="4" style="font-size: 14pt">、</font></font><font face="Liberation Serif, serif"><span lang="en-US"><font face="STFangsong"><font size="4" style="font-size: 14pt"><span lang="en-US">OS
+X</span></font></font></span></font><font face="STFangsong"><font size="4" style="font-size: 14pt">、</font></font><font face="Liberation Serif, serif"><span lang="en-US"><font face="STFangsong"><font size="4" style="font-size: 14pt"><span lang="en-US">BSD</span></font></font></span></font><font face="STFangsong"><font size="4" style="font-size: 14pt">等。</font></font></p>
+<p style="margin-bottom: 0cm; line-height: 100%"><font face="STFangsong"><font size="4" style="font-size: 14pt">组内测试环境为
+</font></font><font face="Liberation Serif, serif"><span lang="en-US"><font face="STFangsong"><font size="4" style="font-size: 14pt"><span lang="en-US">openSuSE
+13.2</span></font></font></span></font><font face="STFangsong"><font size="4" style="font-size: 14pt">，故请评委使用
+</font></font><font face="Liberation Serif, serif"><span lang="en-US"><font face="STFangsong"><font size="4" style="font-size: 14pt"><span lang="en-US"><b>CentOS
+7</b></span></font></font><font face="STFangsong"><font size="4" style="font-size: 14pt"><span lang="en-US">
+</span></font></font></span></font><font face="STFangsong"><font size="4" style="font-size: 14pt">测试；</font></font></p>
+<p style="margin-bottom: 0cm; line-height: 100%"><font face="Liberation Serif, serif"><span lang="en-US"><font face="STFangsong"><font size="4" style="font-size: 14pt"><span lang="en-US">3</span></font></font></span></font><font face="STFangsong"><font size="4" style="font-size: 14pt">、文档均为
+</font></font><font face="Liberation Serif, serif"><span lang="en-US"><font face="STFangsong"><font size="4" style="font-size: 14pt"><span lang="en-US">UTF-8
+</span></font></font></span></font><font face="STFangsong"><font size="4" style="font-size: 14pt">编码。</font></font></p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><font face="STFangsong"><font size="4" style="font-size: 14pt">运行：</font></font></p>
+<p style="margin-bottom: 0cm; line-height: 100%"><font face="STFangsong"><font size="4" style="font-size: 14pt">解压，在解压得到的
+</font></font><font face="Liberation Serif, serif"><span lang="en-US"><font face="STFangsong"><font size="4" style="font-size: 14pt"><span lang="en-US">wishboard
+</span></font></font></span></font><font face="STFangsong"><font size="4" style="font-size: 14pt">内运行“</font></font><font face="Liberation Serif, serif"><span lang="en-US"><font face="STFangsong"><font size="4" style="font-size: 14pt"><span lang="en-US">python3
+simple_httpd.py”</span></font></font></span></font><font face="STFangsong"><font size="4" style="font-size: 14pt">；</font></font></p>
+<p style="margin-bottom: 0cm; line-height: 100%"><font face="STFangsong"><font size="4" style="font-size: 14pt">该
+</font></font><font face="Liberation Serif, serif"><span lang="en-US"><font face="STFangsong"><font size="4" style="font-size: 14pt"><span lang="en-US">simple_httpd.py
+</span></font></font></span></font><font face="STFangsong"><font size="4" style="font-size: 14pt">脚本是我们测试时用的简易服务器。</font></font></p>
+<p style="margin-bottom: 0cm; line-height: 100%"><font face="STFangsong"><font size="4" style="font-size: 14pt">访问地址为</font></font><font face="Liberation Serif, serif"><span lang="en-US"><font face="STFangsong"><font size="4" style="font-size: 14pt"><span lang="en-US">http://localhost:8080/</span></font></font></span></font><font face="STFangsong"><font size="4" style="font-size: 14pt">，若默认端口</font></font><font face="Liberation Serif, serif"><span lang="en-US"><font face="STFangsong"><font size="4" style="font-size: 14pt"><span lang="en-US">8080</span></font></font></span></font><font face="STFangsong"><font size="4" style="font-size: 14pt">被占用，请修改该文件中的
+</font></font><font face="Liberation Serif, serif"><span lang="en-US"><font face="STFangsong"><font size="4" style="font-size: 14pt"><span lang="en-US">port
+</span></font></font></span></font><font face="STFangsong"><font size="4" style="font-size: 14pt">变量至一个可用的值。</font></font></p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><font face="STFangsong"><font size="4" style="font-size: 14pt">已实现功能：</font></font></p>
+<p style="margin-bottom: 0cm; line-height: 100%"><font face="Liberation Serif, serif"><span lang="en-US"><font face="STFangsong"><font size="4" style="font-size: 14pt"><span lang="en-US">1</span></font></font></span></font><font face="STFangsong"><font size="4" style="font-size: 14pt">、心愿添加与显示；</font></font></p>
+<p style="margin-bottom: 0cm; line-height: 100%"><font face="Liberation Serif, serif"><span lang="en-US"><font face="STFangsong"><font size="4" style="font-size: 14pt"><span lang="en-US">2</span></font></font></span></font><font face="STFangsong"><font size="4" style="font-size: 14pt">、点赞；</font></font></p>
+<p style="margin-bottom: 0cm; line-height: 100%"><font face="Liberation Serif, serif"><span lang="en-US"><font face="STFangsong"><font size="4" style="font-size: 14pt"><span lang="en-US">3</span></font></font></span></font><font face="STFangsong"><font size="4" style="font-size: 14pt">、鼠标指向“联系方式”时显示详细联系信息。</font></font></p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><font face="STFangsong"><font size="4" style="font-size: 14pt">待实现功能：</font></font></p>
+<p style="margin-bottom: 0cm; line-height: 100%"><font face="Liberation Serif, serif"><span lang="en-US"><font face="STFangsong"><font size="4" style="font-size: 14pt"><span lang="en-US">1</span></font></font></span></font><font face="STFangsong"><font size="4" style="font-size: 14pt">、账户系统；</font></font></p>
+<p style="margin-bottom: 0cm; line-height: 100%"><br/>
+
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><font face="STFangsong"><font size="4" style="font-size: 14pt">联系方式</font></font><font face="STFangsong"><font size="4" style="font-size: 14pt">：</font></font></p>
+<p style="margin-bottom: 0cm; line-height: 100%"><font face="STFangsong"><font size="4" style="font-size: 14pt">杨博：</font></font></p>
+<p style="margin-bottom: 0cm; line-height: 100%"><font face="Liberation Serif, serif"><span lang="en-US"><b>	</b></span></font><font face="STFangsong"><font size="4" style="font-size: 14pt"><b>电话
+</b></font></font><font face="Liberation Serif, serif"><span lang="en-US">139
+5762 1186</span></font></p>
+<p style="margin-bottom: 0cm; line-height: 100%"><font face="Liberation Serif, serif"><span lang="en-US"><b>	QQ</b></span></font><font face="STFangsong"><font size="4" style="font-size: 14pt">：</font></font><font face="Liberation Serif, serif"><span lang="en-US">345998626
+E-mail: black345998626@gmail.com</span></font></p>
+<p style="margin-bottom: 0cm; line-height: 100%"><font face="STFangsong"><font size="4" style="font-size: 14pt">王旭东：</font></font></p>
+<p style="margin-bottom: 0cm; line-height: 100%"><font face="Liberation Serif, serif"><span lang="en-US"><b>	</b></span></font><font face="STFangsong"><font size="4" style="font-size: 14pt"><b>电话</b></font></font><font face="STFangsong"><font size="4" style="font-size: 14pt">
+</font></font><font face="Liberation Serif, serif"><span lang="en-US">134
+7600 3114 </span></font>
+</p>
+<p style="margin-bottom: 0cm; line-height: 100%"><font face="Liberation Serif, serif"><span lang="en-US"><b>	QQ</b></span></font><font face="STFangsong"><font size="4" style="font-size: 14pt">：</font></font><font face="Liberation Serif, serif"><span lang="en-US">757224305
+E-mail :xukiro@gmail.com</span></font></p>
+</body>
+</html>

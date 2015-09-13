@@ -1,0 +1,22 @@
+<div class="wish_out">
+				<div class="top_out">
+					<div class="title_out">$title</div>
+					<div class="name_out">$name</div>
+					<div class="time_out">$time</div>
+				</div>
+				<div class="main_out">
+					<div class="content_out">$wish</div>
+					<div class="right_out">
+						<div class="dianzan">
+							<form onclick="add(this)" onsubmit="return checkForm(this)" action="/cgi-bin/thumb_up.py" method="get">
+								<input type="submit" name="$info_id" class="zan" id="zan" value="+$thumb_up" />
+							</form>
+							<div class="notice" style="opacity = 0">
+								为此愿望+1
+							</div>
+						</div>
+						<div class="contact_out">联系方式</div>
+						<div class="contact_out_inside">$contact_info</div>
+					</div>	
+				</div>	
+			</div> 

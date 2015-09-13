@@ -1,0 +1,117 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>许愿</title>
+	<link rel="stylesheet" type="text/css" href="main.css">
+	<link rel="stylesheet" type="text/css" href="form.css">
+	<script type="text/javascript">
+	function checkForm(obj){
+		if (obj.title.value == "输入你的标题") {
+			alert("标题似乎没填写哦~");
+			return false;
+		}
+		if (obj.wish.value == "输入许愿的内容") {
+			alert("心愿好像还没说出来吧")
+			return false;
+		}
+		if (obj.nickname.value == "输入你的昵称") {
+			alert("告诉大家你的昵称吧～")
+			return false;
+		}
+		if (obj.contact_info.value == "QQ/TEL/EMAIL") {
+			alert("联系方式可不能空着哦~");
+			return false;
+		}
+		else {
+			return true;
+			alert("提交成功！");
+		} 
+	}
+	</script>
+</head>
+<body>	
+	<div class="background">
+	<div class="wrapper">
+		<div class="title">心愿墙</div>
+		<div class="nav">
+			<ul>
+				<li id="inactive"><a href="index.html">心愿聚集</a></li>
+				<li id="active">立刻许愿</li>
+			</ul>
+		</div>
+		<div class="main2">
+			<div class="eventinfo">
+				<p class="p1">欢迎来到这里！</p>
+				<p>这里是可以实现大家的心愿的地方~</p>
+				<p class="p2">关于许愿~</p>
+				<p>在右边的框体里填入你的愿望吧！</p>
+				<p>记得不要忘记填写联系方式~</p>
+				<p class="p2">关于实现~</p>
+				<p>当看到美好的愿望时，不妨为它+1~</p>
+				<p>联系方式是为了让愿望实现而存在</p>
+				<p>可不是为了一些奇怪的用途哦</p>
+
+			</div>
+			<div class="wish_post"><!--cgi-bin/new_wish.py-->
+			<form action="cgi-bin/new_wish.py" method="post"
+			 onsubmit="return checkForm(this)" name="myform">
+				<div class="wish_title">愿望的标题</div>
+				<div class="input_title">
+					<input type="text" name="title" 
+					value="输入你的标题" 
+					class="unfocusedtitle_form" 
+					onblur="if(this.value=='')
+					{this.value='输入你的标题';
+					this.className='unfocusedtitle_form'}" 
+					onfocus="if(this.value=='输入你的标题')
+					{this.value='';this.className='focusedtitle_form'}">
+					<!--使input的样式在聚焦时发生改变-->
+				</div>
+				<div class="wish_content">愿望的内容</div>
+				<div class="input_content">
+					<textarea
+					name= "wish"
+					class="unfocusedtextarea" 
+					onblur="if(this.value=='')
+					{this.value='输入许愿的内容';
+					this.className='unfocusedtextarea'}" 
+					onfocus="if(this.value=='输入许愿的内容')
+					{this.value='';this.className='focusedtextarea'}">输入许愿的内容</textarea>
+					
+				</div>
+				<div class="wish_inf">你的信息</div>
+				<div class="input_inf">
+					你的昵称: <input type="text" name="nickname" 
+								class="	unfocusedname_form"
+								value="输入你的昵称" 
+								onblur="if(this.value=='')
+								{this.value='输入你的昵称';
+								this.className='unfocusedname_form'}" 
+								onfocus="if(this.value=='输入你的昵称')
+								{this.value='';this.className='focusedname_form'}">
+					联系方式: <input type="text" name="contact_info"
+								class="unfocusedcontact_form"
+								value="QQ/TEL/EMAIL" 
+								onblur="if(this.value=='')
+								{this.value='QQ/TEL/EMAIL';
+								this.className='unfocusedcontact_form'}"
+								onfocus="if(this.value=='QQ/TEL/EMAIL')
+								{this.value='';this.className='focusedcontact_form'}">
+				</div>
+				<div class="button">
+					<input type="submit" value="提交!" class="button_form">
+				</div>
+			</form>
+			</div>
+		</div>
+		<div class="footer">Coded By 
+		<a href="https://plus.google.com/u/0/+%E9%BB%91%E5%BC%80%E6%B0%B4/posts" class="a1">黑开水</a> 
+		<a href="http://t.qq.com/eesuvon" class="a2">xukiro</a>
+		<a href="http://user.qzone.qq.com/1024516706" class="a3">坂道</a>
+		<a href="http://user.qzone.qq.com/492850141" class="a4">多啦A梦</a>
+		</div>		
+	</div>
+	</div>
+	
+</body>
+</html>

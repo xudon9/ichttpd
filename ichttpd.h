@@ -2,7 +2,8 @@
  * Author: Wang Hsutung
  * Date: 2015/08/11
  * Locale: 家里
- * Email: hsu@whu.edu.cn
+ * Email: hsu[AT]whu.edu.cn
+ * Last Update: 2015/09/13
 \***************************/
 
 #ifndef ICHTTPD_H

@@ -1,3 +1,12 @@
+/***************************\
+ * Author: Wang Hsutung
+ * Date: 2015/08/11
+ * Locale: 家里
+ * Email: hsu[AT]whu.edu.cn
+ * Last Update: 2015/09/13(日)
+ * 这两天寝室不开空调也好凉快～
+\***************************/
+
 #include "ichttpd.h"
 
 void ichttpd_start(void)
@@ -283,7 +292,7 @@ void resp_easter(FILE *sockfp)
             "<i>ICH <del>LIEBE</del> DICH</i><h2>;-)</h2>");
     html_link(sockfp, "王旭东", "http://qzone.qq.com/757224305");
     try_fprintf(sockfp, ", Sep 2015, <a href = \"mailto:"
-            "xukiro@outlook.com\">xukiro@outlook.com</a>");
+            "hsu[AT]whu.edu.cn\">xukiro\x40outlook.com</a>");
 
     html_end(sockfp, "body");
     html_end(sockfp, "html");

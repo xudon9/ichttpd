@@ -2,7 +2,7 @@
  * Author: Wang Hsutung
  * Date: 2015/08/12
  * Locale: 家里
- * Email: hsu@whu.edu.cn
+ * Email: hsu[AT]whu.edu.cn
 \***************************/
 
 #ifndef UTILS_H

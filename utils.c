@@ -1,3 +1,10 @@
+/***************************\
+ * Author: Wang Hsutung
+ * Date: 2015/08/12
+ * Locale: 家里
+ * Email: hsu[AT]whu.edu.cn
+\***************************/
+
 #include "utils.h"
 
 void consume_rest(FILE *fp)
