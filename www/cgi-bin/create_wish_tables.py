@@ -1,8 +1,9 @@
 #!/usr/bin/python3
 import os
 import sqlite3
+import get_db_path
 
-connection = sqlite3.connect('wishdata.sqlite')
+connection = sqlite3.connect(get_db_path.db_path())
 
 cursor = connection.cursor()
 cursor.execute("""CREATE TABLE wishes(

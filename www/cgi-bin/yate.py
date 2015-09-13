@@ -1,19 +1,20 @@
 #!/usr/bin/python3
 from string import Template
 from to_human_time import to_human_time
+import get_db_path
 
 def start_response(resp="text/html"):
 #def start_response(resp="multipart/mixed"):
     return('Content-type: ' + resp + '\n\n')
 
 def include_header(the_title = ''):
-    with open('templates/header.html') as headf:
+    with open(get_db_path.root_dir() + 'templates/header.html') as headf:
         head_text = headf.read()
     header = Template(head_text)
     return(header.substitute(title=the_title))
 
 def include_footer(the_wishes):
-    with open('templates/footer.html') as footf:
+    with open(get_db_path.root_dir() + 'templates/footer.html') as footf:
         foot_text = footf.read()
         wish_box_template = Template(foot_text)
         code_str = ''
@@ -56,14 +57,14 @@ def create_inputs(inputs_list):
     return(html_inputs)
   
 def include_footer(wishes_code):
-    with open('templates/footer.html') as footf:
+    with open(get_db_path.root_dir() + 'templates/footer.html') as footf:
         foot_text = footf.read()
     footer = Template(foot_text)
     return(footer.substitute(wish_boxes=wishes_code))
   
 def include_wishes_form(the_wishes):
     code_str = ''
-    with open('templates/form.html') as formf:
+    with open(get_db_path.root_dir() + 'templates/form.html') as formf:
         form_text = formf.read()
         box_template = Template(form_text)
         for i in the_wishes:

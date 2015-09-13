@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 import yate
 import wishmodel
+import get_db_path
 
 wishes = wishmodel.get_wishes_from_store()
 #时间倒序排序

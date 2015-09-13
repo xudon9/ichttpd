@@ -4,7 +4,8 @@
  * Locale: 家里
  * Email: hsu[AT]whu.edu.cn
  * Last Update: 2015/09/13(日)
- * 这两天寝室不开空调也好凉快～
+ * 这两天寝室不开空调也好凉快,
+ *  然后……感冒了。
 \***************************/
 
 #include "ichttpd.h"
@@ -290,9 +291,9 @@ void resp_easter(FILE *sockfp)
     html_header(sockfp, 1, "Coded by Wang Hsutung");
     try_fprintf(sockfp, "<p>A simple HTTP server `<b>ICHttpd</b>'</p>"
             "<i>ICH <del>LIEBE</del> DICH</i><h2>;-)</h2>");
-    html_link(sockfp, "王旭东", "http://qzone.qq.com/757224305");
-    try_fprintf(sockfp, ", Sep 2015, <a href = \"mailto:"
-            "hsu[AT]whu.edu.cn\">xukiro\x40outlook.com</a>");
+    html_link(sockfp, "王旭东", "http://user.qzone.qq.com/757224305");
+    try_fprintf(sockfp, ", Sep 2015. My email is <a href = \"mailto:"
+            "hsu\x40whu.edu.cn\">hsu [AT] whu.edu.cn</a>");
 
     html_end(sockfp, "body");
     html_end(sockfp, "html");
@@ -304,7 +305,7 @@ void resp_unsupport(FILE *sockfp)
     write_filetype(sockfp, "html");
 
     html_page(sockfp, "Unsupported", "Unsupported method",
-            "<p>Methods other than GET are not implemented yet.</p>"
+            "<p>Methods other than GET and POST are not implemented yet.</p>"
             "Please wait.<h2>:-)</h2>");
 }
 
