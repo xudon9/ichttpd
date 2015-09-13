@@ -1,8 +1,10 @@
 # *Ichttpd* V0.2 is here!
 __'New' Feature__: 新增 POST 方法支持.
 
+> @_Wang Hsutung_, 2015年 09月 13日 星期日
+
 ## Introduction
-「 **Ichttpd** 」 是一个简单的支持最常见的 _POST_ 和 _GET_ 方法的 httpd 服务器.
+「 **Ichttpd** 」 是一个完全由C语言实现的、简单的、支持 _POST_ 和 _GET_ 方法的 httpd 服务器.
 
 ## Clone & Compile
 1. 执行命令 `git clone https://github.com/whst/ichttpd.git`;
@@ -22,4 +24,3 @@ __'New' Feature__: 新增 POST 方法支持.
 
 有个小彩蛋 ;-)
 
-> @Wang Hsutung, 2015年 09月 13日 星期日
